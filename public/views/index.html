@@ -1,10 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="groceryApp">
   <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../vendor/bootstrap/dist/css/bootstrap.min.css" />
+    <script src="vendor/angular/angular.min.js"></script>
+    <script src="scripts/client.js"></script>
     <title>Full Stack Code Challenge: Grocery List</title>
   </head>
-  <body>
+  <body ng-controller="GroceryController as gc">
     <h1>Full Stack Code Challenge: Grocery List</h1>
+    <form class="form-inline">
+      <div class="form-group">
+        <label>New Item:</label>
+        <input type="text" class="form-control" placeholder="New Item" ng-model="gc.itemName" />
+      </div>
+      <div class="form-group">
+        <label>Quantity:</label>
+        <input type="number" class="form-control" placeholder="Quantity" ng-model="gc.quantity" />
+      </div>
+      <button class="btn btn-primary" ng-click="gc.createGrocery()">Add New Item</button>
+    </form>
+    <div>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Grocery Item</th>
+                    <th>Quantity</th>
+                    <th>Edit Record</th>
+                  </tr>
+                </thead>
+                <tbody ng-repeat="grocery in gc.groceries track by $index">
+                  <tr>
+                    <td><p>{{grocery.itemName}}</p></td>
+                    <td>{{grocery.quantity}}</td>
+                    <td>
+                        <button type="button" class="btn btn-success btn-xs" ng-click="gc.showEditor($index)">Edit</button> |
+                        <button type="button" class="btn btn-danger btn-xs" ng-click="gc.deleteGrocery(grocery._id)">Delete</button>
+                    </td>
+                  </tr>
+
+                  <tr ng-show="gc.groceries[$index].clicked">
+                    <td>
+                      <input type="text" class="form-control" placeholder="Update Item" ng-model="gc.updateItemName" />
+                    </td>
+                    <td>
+                      <input type="number" class="form-control" placeholder="Quantity" ng-model="gc.updateQuantity" />
+                    </td>
+                    <td>
+                      <button class="btn btn-primary btn-sm" ng-click="gc.updateGroceries($index)">Update</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
   </body>
 </html>
